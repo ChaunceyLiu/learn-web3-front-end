@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en" className={`${geist.variable}`}>
       <body className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
         {/* <TRPCReactProvider> */}
-        <Header /> {/* 全局 Header */}
+        <Header />
         <main>{children}</main>
         {/* </TRPCReactProvider> */}
       </body>
