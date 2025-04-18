@@ -2,8 +2,8 @@ import "@/styles/globals.css";
 import Header from "@/components/header";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-
-// import { TRPCReactProvider } from "@/trpc/react";
+import type { DehydratedState } from "@tanstack/react-query";
+import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -16,16 +16,23 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
+// 新增布局 Props 类型
+type RootLayoutProps = {
+  children: React.ReactNode;
+  dehydratedState?: DehydratedState; // 接收脱水状态
+};
+
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+  dehydratedState,
+}: RootLayoutProps) {
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        {/* <TRPCReactProvider> */}
-        <Header />
-        <main>{children}</main>
-        {/* </TRPCReactProvider> */}
+        <TRPCReactProvider>
+          <Header />
+          {children}
+        </TRPCReactProvider>
       </body>
     </html>
   );

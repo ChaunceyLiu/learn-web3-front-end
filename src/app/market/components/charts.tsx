@@ -91,7 +91,6 @@ export default function TradingChart() {
       postFetcher(endpoint)(params),
     SWR_CONFIG,
   );
-  console.log(rawData);
   const fetchChartData = async () => {
     const data = await getData({
       chainIndex: selectedChain,
@@ -123,7 +122,6 @@ export default function TradingChart() {
         };
 
         if (realTimePoints.time && realTimePoints.value) {
-          console.log(realTimePoints);
           lineSeries.current.update(realTimePoints);
 
           // 使用RAF保证更新时序
