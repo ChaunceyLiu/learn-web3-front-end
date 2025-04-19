@@ -6,37 +6,15 @@ import { useEffect, useState } from "react";
 import { useMarketStore } from "@/store/market";
 import type { MarketStoreState } from "@/store/market";
 import { useQuery } from "@tanstack/react-query";
-import { fetchChainData } from "../page";
+import { fetchChainData } from "@lib/chainData";
+import { fetchCurrentPrice } from "@lib/currentPrice";
+import type { IChainData } from "@/type";
 
-export interface IChainData {
-  name: string;
-  logUrl: string;
-  shortName: string;
-  chainIndex: string;
-}
-
-export interface IChainPrice {
-  chainIndex: string;
-  tokenAddress: string;
-}
-
-async function getChainData(params: IChainPrice[]) {
-  const _params = new URLSearchParams({
-    q: JSON.stringify(params),
-  });
-  const res = await fetch(
-    `http://localhost:3001/chain-data/getCurrenciesPrice?${_params}`,
-  );
-  if (!res.ok) {
-    // 由最近的 error.js 处理
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
 // 1️⃣ 使用 React Query 进行数据获取和缓存
-export default function ChainPanel(props: any) {
-  console.log("ChainPanel", props);
-  const [data, setData] = useState<Array<IChainData & { price: string }>>([]);
+export default function ChainPanel() {
+  const [mergedData, setMergedData] = useState<
+    Array<IChainData & { price: string }>
+  >([]);
   const updateSelectedChain = useMarketStore(
     (state) => (state as MarketStoreState).updateSelectedChain,
   );
@@ -46,82 +24,46 @@ export default function ChainPanel(props: any) {
   };
 
   // React Query 客户端自动继承预取数据
-  // const {
-  //   data: cachedData,
-  //   error,
-  //   isPending,
-  // } = useQuery({
-  //   queryKey: [["chainData"]],
-  //   queryFn: fetchChainData,
-  // });
+  // 第一阶段：获取chainData
+  const { data: chainData, isPending: isChainLoading } = useQuery({
+    queryKey: ["chainData"],
+    queryFn: fetchChainData,
+    // 2025新增网络优先级标记
+    meta: { priority: "high" },
+  });
 
-  // useEffect(() => {
-  //   const result: Array<IChainData & { price: string }> = [];
+  console.log("chainData", chainData);
+  // 第二阶段：基于chainData获取价格
+  const { data: priceData, isPending: isPriceLoading } = useQuery({
+    queryKey: chainData
+      ? [
+          "currentPrice",
+          chainData.map((c) => ({
+            chainIndex: c.chainIndex,
+            tokenAddress: "",
+          })),
+        ]
+      : ["currentPrice", []], // 处理未加载数据的情况
+    queryFn: fetchCurrentPrice,
+    enabled: !!chainData, // 串行触发条件
+  });
 
-  //   const fetchAndCache = async () => {
-  //     console.log("cachedData", cachedData);
-  //     if (cachedData) {
-  //       // 3️⃣ 使用缓存数据继续后续逻辑
-  //       const res = await getChainData(
-  //         cachedData?.data?.map((chain) => ({
-  //           chainIndex: chain.chainIndex,
-  //           tokenAddress: "",
-  //         })),
-  //       );
-  //       const priceMap = new Map();
-  //       res.forEach((price: IChainPrice) => {
-  //         priceMap.set(price.chainIndex, price);
-  //       });
-  //       cachedData?.data?.forEach((chain: IChainData) => {
-  //         result.push({
-  //           ...chain,
-  //           price: priceMap.get(chain.chainIndex).price,
-  //         });
-  //       });
-  //       setData(result);
-  //     }
-  //   };
+  useEffect(() => {
+    if (chainData && priceData) {
+      const priceMap = new Map(priceData.map((p) => [p.chainIndex, p.price]));
 
-  //   fetchAndCache();
-  // }, [cachedData]);
-  // // useEffect(() => {
-  // //   queryClient.prefetchQuery({
-  // //     queryKey: ["supportedChainData"],
-  // //     queryFn: getData,
-  // //     staleTime: 5000, // 5秒内不重复请求
-  // //   });
-  // // }, [queryClient]);
-
-  // // useEffect(() => {
-  // //   const fetchData = async () => {
-  // //     const _data: IChainData[] = await getData();
-  // //     const result: Array<IChainData & { price: string }> = [];
-  // //     if (_data) {
-  // //       const res = await getChainData(
-  // //         _data?.map((chain: IChainData) => ({
-  // //           chainIndex: chain.chainIndex,
-  // //           tokenAddress: "",
-  // //         })),
-  // //       );
-  // //       const priceMap = new Map();
-  // //       res.forEach((price: IChainPrice) => {
-  // //         priceMap.set(price.chainIndex, price);
-  // //       });
-  // //       _data.forEach((chain: IChainData) => {
-  // //         result.push({
-  // //           ...chain,
-  // //           price: priceMap.get(chain.chainIndex).price,
-  // //         });
-  // //       });
-  // //       setData(result);
-  // //     }
-  // //   };
-  // //   fetchData();
-  // // }, []);
+      setMergedData(
+        chainData.map((chain) => ({
+          ...chain,
+          price: priceMap.get(chain.chainIndex) || "0.00",
+        })),
+      );
+    }
+  }, [chainData, priceData]); // 仅依赖必要数据
 
   return (
     <BottomDrawer>
-      <ChainInfo data={data} handleClick={selectChain} />
+      <ChainInfo data={mergedData} handleClick={selectChain} />
     </BottomDrawer>
   );
 }

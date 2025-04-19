@@ -1,33 +1,10 @@
 "use client";
 import { createChart, LineSeries } from "lightweight-charts";
 import { useEffect, useRef, useState } from "react";
-import qs from "qs";
 import { useMarketStore, type MarketStoreState } from "@/store/market";
 import useSWR from "swr";
-
-interface IHistoricalData {
-  cursor: string;
-  prices: IHistoricalPricesData[];
-}
-
-interface IHistoricalPricesData {
-  time: string;
-  price: string;
-}
-
-async function getData(params: {
-  period: string;
-  chainIndex: string;
-}): Promise<IHistoricalData[]> {
-  const res = await fetch(
-    `http://localhost:3001/chain-data/getHistoricalPrice?${qs.stringify(params)}`,
-  );
-  if (!res.ok) {
-    // 由最近的 error.js 处理
-    throw new Error("Failed to fetch data");
-  }
-  return res.json();
-}
+import { fetchHistoricalPrice } from "@lib/historicalPrice";
+import type { IHistoricalPricesData } from "@lib/historicalPrice";
 
 export default function TradingChart() {
   const { selectedChain } = useMarketStore(
@@ -83,7 +60,7 @@ export default function TradingChart() {
       [
         {
           chainIndex: selectedChain,
-          tokenAddress: "0xc18360217d8f7ab5e7c516566761ea12ce7f9d72",
+          tokenAddress: "0xbd3531da5cf5857e7cfaa92426877b022e612cf8",
         },
       ],
     ],
@@ -91,8 +68,9 @@ export default function TradingChart() {
       postFetcher(endpoint)(params),
     SWR_CONFIG,
   );
+  
   const fetchChartData = async () => {
-    const data = await getData({
+    const data = await fetchHistoricalPrice({
       chainIndex: selectedChain,
       period: dimension,
     });

@@ -30,6 +30,7 @@
       "@/*": ["./src/*"],
       "@/components/*": ["./src/app/components/*"],
       "@/store/*": ["./src/store/*"],
+      "@lib/*": ["./lib/api/*"],
     }
   },
   "include": [
