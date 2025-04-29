@@ -37,6 +37,10 @@ const config = {
         source: "/chain-data/:path*",
         destination: "http://localhost:3000/chain-data/:path*" // 修正API前缀保留
       },
+      {
+        source: "/wallet-data/:path*",
+        destination: "http://localhost:3000/wallet-data/:path*" // 修正API前缀保留
+      },
     ];
   },
 };

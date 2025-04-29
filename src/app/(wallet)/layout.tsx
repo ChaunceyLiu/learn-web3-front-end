@@ -2,8 +2,8 @@ import "@/styles/globals.css";
 import Header from "@/components/header";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import type { DehydratedState } from "@tanstack/react-query";
-import { TRPCReactProvider } from "@/trpc/react";
+import { headers } from "next/headers";
+import WalletProvider from "@/app/(wallet)/wallet/wallet-provider";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -19,20 +19,29 @@ const geist = Geist({
 // 新增布局 Props 类型
 type RootLayoutProps = {
   children: React.ReactNode;
-  dehydratedState?: DehydratedState; // 接收脱水状态
+  params: {
+    __next_route_groups?: string[];
+  };
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-  dehydratedState,
+  params,
 }: RootLayoutProps) {
+  const headerList: any = await headers();
+  console.log("isSpecialGroup", headerList.get("x-next-pathname"));
+  const pathSegments = headerList.get("x-next-pathname")?.split("/") || [];
+  const isSpecialGroup = pathSegments.some(
+    (seg: any) => seg.startsWith("(") && seg.includes("special"),
+  );
+
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <TRPCReactProvider>
+        <WalletProvider>
           <Header />
           {children}
-        </TRPCReactProvider>
+        </WalletProvider>
       </body>
     </html>
   );

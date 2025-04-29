@@ -3,7 +3,7 @@ import type { IChainData } from "@/type";
 import { Virtuoso } from "react-virtuoso";
 import { useEffect, useMemo, useState } from "react";
 
-type ChainItem = IChainData & { price: string }
+type ChainItem = IChainData & { price: string };
 
 export default function ChainInfo({
   data,
@@ -24,9 +24,13 @@ export default function ChainInfo({
     [data, version],
   );
   return (
-    <main className="flex-grow px-4 py-10">
+    <main className="flex h-[100vh] w-[100vw] flex-col px-4 py-4">
       <Virtuoso
-        style={{ height: "100%" }}
+        style={{
+          height: "100%",
+          overflowY: "auto", // 强制启用滚动条
+          position: "relative",
+        }}
         data={memoizedData}
         itemContent={(_, chain: ChainItem) => {
           return (

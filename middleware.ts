@@ -1,18 +1,18 @@
-// import { NextResponse } from 'next/server'
-// import type { NextRequest } from 'next/server'
+// // middleware.ts (2025年最新语法)
+// import { NextRequest, NextResponse } from 'next/server'
 
-// export async function middleware(request: NextRequest) {
-//   if (request.nextUrl.pathname.startsWith('/api')) {
-//     const target = new URL(
-//       request.nextUrl.pathname.replace('/api', ''),
-//       'http://localhost:3000'
-//     )
-    
-//     return NextResponse.rewrite(target, {
-//       request: {
-//         headers: new Headers(request.headers)
-//       }
-//     })
-//   }
-//   return NextResponse.next()
+// export function middleware(request: NextRequest) {
+//   const url = request.nextUrl
+//   const headers = new Headers(request.headers)
+  
+//   // 设置新的标准头 ✅
+//   headers.set('x-next-pathname', url.pathname)
+//   console.log('middleware', url.pathname)
+  
+//   // 必须返回克隆后的响应 ✅
+//   return NextResponse.next({
+//     request: {
+//       headers 
+//     }
+//   })
 // }
