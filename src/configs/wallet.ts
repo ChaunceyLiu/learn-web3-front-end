@@ -5,6 +5,7 @@ import {
   optimism,
   immutableZkEvm,
   polygon,
+  sepolia,
 } from "wagmi/chains";
 import { walletConnect, injected } from "wagmi/connectors";
 
@@ -21,13 +22,14 @@ export const WCConnector = walletConnect({
 });
 
 export const config = createConfig({
-  chains: [mainnet, optimism, arbitrum, immutableZkEvm, polygon],
+  chains: [mainnet, optimism, arbitrum, immutableZkEvm, polygon, sepolia],
   transports: {
     [mainnet.id]: http(),
     [optimism.id]: http(),
     [arbitrum.id]: http(),
     [immutableZkEvm.id]: http(),
     [polygon.id]: http(),
+    [sepolia.id]: http(),
   },
   connectors: [WCConnector, injected()],
 });

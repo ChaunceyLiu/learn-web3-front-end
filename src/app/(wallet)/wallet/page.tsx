@@ -1,5 +1,5 @@
 "use client";
-import { useBalance, useChains, useDisconnect } from "wagmi";
+import { useBalance, useChains, useDisconnect, useSignMessage } from "wagmi";
 import ChainCard from "./components/ChainCard";
 import AutoCheckChain from "./components/AutoCheckChain";
 import MenuItem from "@mui/material/MenuItem";
@@ -10,6 +10,7 @@ import { useWalletStore } from "@/store/useWalletStore";
 import { useConnect, useAccount } from "wagmi";
 import { Button, Space } from "antd-mobile";
 import { DemoBlock } from "@/app/components/demoBlock";
+import TransferTokens from "./components/TransferTokens";
 
 export default function Wallet() {
   const [mounted, setMounted] = useState(false);
@@ -25,6 +26,13 @@ export default function Wallet() {
     address: address, // 用户地址
   });
 
+  const { signMessage } = useSignMessage({
+    mutation: {
+      onSuccess: (signature) => {
+        console.log(`签名成功 授权登录:`, signature);
+      },
+    },
+  });
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -83,7 +91,7 @@ export default function Wallet() {
           <AutoCheckChain />
         </Space>
       </DemoBlock>
-      <DemoBlock title="交易费用查询">
+      <DemoBlock title="跨链操作">
         <Space wrap>
           {chains.length > 0 && (
             <div className="flex flex-row items-center justify-center">
@@ -106,6 +114,20 @@ export default function Wallet() {
           )}
 
           {selectedId && <ChainCard chain={selectedChain} />}
+        </Space>
+      </DemoBlock>
+      <DemoBlock title="代币转账">
+        <Space wrap>
+          <TransferTokens />
+        </Space>
+      </DemoBlock>
+      <DemoBlock title="消息签名">
+        <Space wrap>
+          <Button
+            onClick={() => signMessage({ message: new Date().toString() })}
+          >
+            签名消息
+          </Button>
         </Space>
       </DemoBlock>
 
