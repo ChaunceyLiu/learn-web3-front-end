@@ -1,7 +1,5 @@
-import Link from "next/link";
-
 import { LatestPost } from "@/components/post";
-import { api, HydrateClient } from "@/trpc/server";
+import { HydrateClient } from "@/trpc/server";
 import EntryInput from "../components/home/entryInput";
 
 export default async function Home() {

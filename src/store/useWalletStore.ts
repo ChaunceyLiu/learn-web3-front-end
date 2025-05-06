@@ -19,13 +19,9 @@ export const useWalletStore = create<WalletState>((set, get) => ({
 
   // 初始化 Provider 并监听事件
   setProvider: async (provider) => {
-    console.log("初始化Provider:", provider);
-    console.log(provider.getNetwork)
     // 获取初始网络和账户
     const network = await provider.getNetwork();
     const signer = await provider.getSigner();
-    console.log("当前网络:", network);
-    console.log("signer", signer)
     set({
       provider,
       signer,

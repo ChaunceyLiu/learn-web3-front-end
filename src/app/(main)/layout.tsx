@@ -2,7 +2,6 @@ import "@/styles/globals.css";
 import Header from "@/components/header";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import { headers } from 'next/headers'
 import { TRPCReactProvider } from "@/trpc/react";
 
 export const metadata: Metadata = {
@@ -17,22 +16,9 @@ const geist = Geist({
 });
 
 
-// 新增布局 Props 类型
-type RootLayoutProps = {
-  children: React.ReactNode;
-  params: {
-    __next_route_groups?: string[];
-  };
-};
-
-export default async function RootLayout({ children, params }: RootLayoutProps) {
-  const headerList: any = await headers()
-  console.log('isSpecialGroup', headerList.get('x-next-pathname'))
-  const pathSegments = headerList.get('x-next-pathname')?.split('/') || []
-  const isSpecialGroup = pathSegments.some((seg: any) => 
-    seg.startsWith('(') && seg.includes('special')
-  )
-
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">

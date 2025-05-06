@@ -15,15 +15,9 @@ const geist = Geist({
   variable: "--font-geist-sans",
 });
 
-// 新增布局 Props 类型
-type RootLayoutProps = {
-  children: React.ReactNode;
-  params: {
-    __next_route_groups?: string[];
-  };
-};
-
-export default async function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
