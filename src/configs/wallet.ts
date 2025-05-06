@@ -9,7 +9,7 @@ import {
 } from "wagmi/chains";
 import { walletConnect, injected } from "wagmi/connectors";
 
-const projectId = process.env.PROJECT_ID || "your_project_id"; // Replace with your actual project ID
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID || "your_project_id"; // Replace with your actual project ID
 
 export const WCConnector = walletConnect({
   projectId,

@@ -2,8 +2,7 @@ import "@/styles/globals.css";
 import Header from "@/components/header";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import { headers } from "next/headers";
-import WalletProvider from "@/app/(wallet)/wallet/wallet-provider";
+import Providers from "./interaction/Provider";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -24,24 +23,14 @@ type RootLayoutProps = {
   };
 };
 
-export default async function RootLayout({
-  children,
-  params,
-}: RootLayoutProps) {
-  const headerList: any = await headers();
-  console.log("isSpecialGroup", headerList.get("x-next-pathname"));
-  const pathSegments = headerList.get("x-next-pathname")?.split("/") || [];
-  const isSpecialGroup = pathSegments.some(
-    (seg: any) => seg.startsWith("(") && seg.includes("special"),
-  );
-
+export default async function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" className={`${geist.variable}`}>
       <body className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-        <WalletProvider>
+        <Providers>
           <Header />
           {children}
-        </WalletProvider>
+        </Providers>
       </body>
     </html>
   );

@@ -16,7 +16,9 @@ export const useCurrentProvider = () => {
       if ("phantom" in window && window.phantom?.solana?.isPhantom) {
         return {
           provider: window.phantom.solana,
-          connection: new Connection("https://api.mainnet-beta.solana.com"),
+          connection: new Connection(
+            `https://solana-mainnet.g.alchemy.com/v2/${process.env.NEXT_PUBLIC_ALCHEMY_SOLANA_API_KEY}`,
+          ),
           chainType: "solana" as const,
         };
       }

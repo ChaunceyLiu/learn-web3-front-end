@@ -6,6 +6,12 @@ import "./src/env.js";
 
 /** @type {import("next").NextConfig} */
 const config = {
+  // experimental: {
+  //   serverComponentsExternalPackages: [
+  //     "@solana/web3.js",
+  //     "@solana/wallet-adapter-react",
+  //   ],
+  // },
   images: {
     // 2025年最新安全配置
     remotePatterns: [
@@ -26,7 +32,10 @@ const config = {
             value: "http://localhost:3001",
           },
           { key: "Access-Control-Allow-Methods", value: "GET,POST,PUT,DELETE" },
-          { key: "Access-Control-Allow-Headers", value: "Content-Type,Authorization" }
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type,Authorization",
+          },
         ],
       },
     ];
@@ -35,11 +44,11 @@ const config = {
     return [
       {
         source: "/chain-data/:path*",
-        destination: "http://localhost:3000/chain-data/:path*" // 修正API前缀保留
+        destination: "http://localhost:3000/chain-data/:path*", // 修正API前缀保留
       },
       {
         source: "/wallet-data/:path*",
-        destination: "http://localhost:3000/wallet-data/:path*" // 修正API前缀保留
+        destination: "http://localhost:3000/wallet-data/:path*", // 修正API前缀保留
       },
     ];
   },
