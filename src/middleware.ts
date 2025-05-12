@@ -16,6 +16,8 @@ export const config = {
 }
 
 export default function middleware(request: NextRequest) {
+  console.log('Middleware triggered for:', request.url);
+  console.log('Headers:', JSON.stringify([...request.headers]));
   const debugHeader = new Headers(request.headers);
   debugHeader.set('x-middleware-version', '2025.5');
 
