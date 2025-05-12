@@ -10,7 +10,7 @@ export interface IHistoricalPricesData {
   price: string;
 }
 
-const API_ENDPOINT = process.env.CHAIN_DATA_API || "http://localhost:3001";
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_HOST || "/api";
 
 export async function fetchHistoricalPrice(params: {
   period: string;

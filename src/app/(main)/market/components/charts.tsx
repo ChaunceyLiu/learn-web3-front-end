@@ -1,6 +1,6 @@
 "use client";
 import { createChart, LineSeries } from "lightweight-charts";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useMarketStore, type MarketStoreState } from "@/store/market";
 import useSWR from "swr";
 import { fetchHistoricalPrice } from "@lib/historicalPrice";
@@ -40,7 +40,7 @@ export default function TradingChart() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Chain-Index": params.chainIndex, // 区块链专用头
+          // "X-Chain-Index": params.chainIndex, // 区块链专用头
         },
         body: JSON.stringify(params),
       });
@@ -56,7 +56,7 @@ export default function TradingChart() {
 
   const { data: rawData } = useSWR<IHistoricalPricesData[]>(
     [
-      `http://localhost:3001/chain-data/getRealTimePrice`,
+      `/api/chain-data/getRealTimePrice`,
       [
         {
           chainIndex: selectedChain,
@@ -68,8 +68,8 @@ export default function TradingChart() {
       postFetcher(endpoint)(params),
     SWR_CONFIG,
   );
-  
-  const fetchChartData = async () => {
+
+  const fetchChartData = useCallback(async () => {
     const data = await fetchHistoricalPrice({
       chainIndex: selectedChain,
       period: dimension,
@@ -80,7 +80,7 @@ export default function TradingChart() {
         value: Number(item.price),
       }))
       .sort((a, b) => a.time - b.time);
-  };
+  }, [selectedChain, dimension]); // 添加依赖项
 
   // 实时数据更新改造
   useEffect(() => {
@@ -145,7 +145,9 @@ export default function TradingChart() {
     };
 
     if (!initialDataLoaded) {
-      loadInitialData();
+      loadInitialData().catch((e) => {
+        console.error("数据加载失败:", e);
+      });
     }
 
     // 正确清理函数
@@ -155,12 +157,13 @@ export default function TradingChart() {
         chartInstance.current = null;
       }
     };
-  }, [dimension, selectedChain, initialDataLoaded]);
+  }, [dimension, selectedChain, initialDataLoaded, fetchChartData]);
 
   useEffect(() => {
+    const controller = abortController.current;
     return () => {
       isMounted.current = false;
-      abortController.current.abort();
+      controller.abort();
 
       // 完全清理图表相关引用
       if (chartInstance.current) {

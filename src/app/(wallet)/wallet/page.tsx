@@ -4,7 +4,7 @@ import ChainCard from "./components/ChainCard";
 import AutoCheckChain from "./components/AutoCheckChain";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { type SelectChangeEvent } from "@mui/material/Select";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BrowserProvider } from "ethers";
 import { useWalletStore } from "@/store/useWalletStore";
 import { useConnect, useAccount } from "wagmi";
@@ -37,23 +37,23 @@ export default function Wallet() {
     setMounted(true);
   }, []);
 
-  const init = async () => {
+  const init = useCallback(async () => {
     if (window.ethereum) {
       try {
-        await window.ethereum.request({
-          method: "wallet_getPermissions",
-        });
+        await window.ethereum.request({ method: "wallet_getPermissions" });
+        const provider = new BrowserProvider(window.ethereum);
+        await setProvider(provider);
       } catch (e) {
-        console.error("Permission check failed:", e);
+        console.error("Wallet init error:", e);
       }
-      const provider = new BrowserProvider(window.ethereum);
-      await setProvider(provider);
     }
-  };
+  }, [setProvider]);
 
   useEffect(() => {
-    init();
-  }, [setProvider]);
+    init().catch((error) => {
+      console.error("初始化失败", error);
+    });
+  }, [init]);
 
   const handleConnect = () => {
     const metamaskConnector = connectors.find((c) => c.id === "io.metamask");
@@ -63,7 +63,9 @@ export default function Wallet() {
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value;
     setSelectedId(value);
-    switchNetwork(Number(value));
+    switchNetwork(Number(value)).catch((error) => {
+      console.error("切换网络失败", error);
+    });
   };
 
   if (!mounted) return null;

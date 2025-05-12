@@ -1,7 +1,7 @@
 import type { QueryFunction } from "@tanstack/react-query";
 import type { IChainData } from "@/type";
 
-const API_ENDPOINT = process.env.CHAIN_DATA_API || "http://localhost:3001";
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_HOST || "/api";
 
 export const fetchChainData: QueryFunction<IChainData[]> = async () => {
   const response = await fetch(

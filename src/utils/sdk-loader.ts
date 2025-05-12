@@ -8,7 +8,7 @@ export const getSDKInstance = (chainType: keyof typeof PRESET_CHAINS) => {
 
   switch (config?.sdk) {
     case "ethers":
-      return new BrowserProvider(window.ethereum!, config);
+      return new BrowserProvider(window.ethereum, config);
     case "solana-web3":
       if (!config?.rpcUrls.default.http[0]) {
         throw new Error("RPC URL is undefined for the selected chain.");

@@ -1,18 +1,34 @@
-// // middleware.ts (2025年最新语法)
-// import { NextRequest, NextResponse } from 'next/server'
+// middleware.ts
+import { NextRequest, NextResponse } from 'next/server'
 
-// export function middleware(request: NextRequest) {
-//   const url = request.nextUrl
-//   const headers = new Headers(request.headers)
-  
-//   // 设置新的标准头 ✅
-//   headers.set('x-next-pathname', url.pathname)
-//   console.log('middleware', url.pathname)
-  
-//   // 必须返回克隆后的响应 ✅
-//   return NextResponse.next({
-//     request: {
-//       headers 
-//     }
-//   })
-// }
+const PROD = "https://learn-web3-back-end.vercel.app";
+const DEV = "http://localhost:3000";
+
+export const config = {
+  matcher: [
+    {
+      source: '/api/(.*)',
+      missing: [
+        { type: 'header', key: 'x-middleware-bypass' }
+      ]
+    }
+  ]
+}
+
+export default function middleware(request: NextRequest) {
+  const debugHeader = new Headers(request.headers);
+  debugHeader.set('x-middleware-version', '2025.5');
+
+  // 提取路径和查询参数
+  const originalPath = request.nextUrl.pathname;
+  const pathWithoutApi = originalPath.split('/api/')[1] || '';
+  const searchParams = request.nextUrl.search; // 包含 ? 符号的查询参数
+
+  // 构造完整的新 URL（包含查询参数）
+  const newUrl = new URL(
+    `/${pathWithoutApi}${searchParams}`, // 添加查询参数
+    PROD
+  );
+
+  return NextResponse.rewrite(newUrl, { headers: debugHeader });
+}

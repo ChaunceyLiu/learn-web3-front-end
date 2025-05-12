@@ -3,9 +3,7 @@ import React from "react";
 import { Input as MuiInput, type InputProps } from "@mui/material";
 import { color } from "@/constants/css";
 
-interface CustomInputProps extends InputProps {}
-
-export default function Input(props: CustomInputProps) {
+export default function Input(props: InputProps) {
   return (
     <MuiInput
       {...props}

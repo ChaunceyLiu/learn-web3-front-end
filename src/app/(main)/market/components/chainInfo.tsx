@@ -14,14 +14,9 @@ export default function ChainInfo({
   handleClick?: (chain: IChainData) => void;
   onCloseDrawer?: () => void;
 }) {
-  const [version, setVersion] = useState(0);
-  useEffect(() => {
-    setVersion((v) => v + 1);
-  }, [data]);
-
   const memoizedData = useMemo(
     () => data.map((d) => ({ ...d, _hash: crypto.randomUUID() })),
-    [data, version],
+    [data],
   );
   return (
     <main className="flex h-[100vh] w-[100vw] flex-col px-4 py-4">

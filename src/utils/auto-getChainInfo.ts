@@ -24,7 +24,7 @@ export const useCurrentProvider = () => {
       }
 
       // EVM通用检测
-      const ethersProvider = new BrowserProvider(window.ethereum!);
+      const ethersProvider = new BrowserProvider(window.ethereum);
       const network = await ethersProvider.getNetwork();
 
       console.log("当前链类型:", network, ethersProvider);

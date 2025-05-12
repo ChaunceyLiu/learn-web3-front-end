@@ -1,5 +1,5 @@
 import {
-  BrowserProvider,
+  type BrowserProvider,
   JsonRpcProvider,
   type TransactionRequest,
 } from "ethers";
@@ -16,7 +16,7 @@ export class GasOptimizer {
   // 动态选择低延迟 RPC
   private getOptimalRpc(chainId: number) {
     const chain = Object.values(TESTNET_CONFIG).find((c) => c.id === chainId);
-    return chain?.rpcUrls[0]!; // 简化实现（实际应测延迟）
+    return chain?.rpcUrls?.[0]; // 简化实现（实际应测延迟）
   }
 
   // EIP-1559 燃气估算

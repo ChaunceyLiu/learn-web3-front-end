@@ -1,7 +1,7 @@
 import type { QueryFunctionContext } from "@tanstack/react-query";
 import type { IChainPrice, ICurrentPrice } from "@/type";
 
-const API_ENDPOINT = process.env.CHAIN_DATA_API || "http://localhost:3001";
+const API_ENDPOINT = process.env.NEXT_PUBLIC_API_HOST || "/api";
 
 export const fetchCurrentPrice = async (
   context: QueryFunctionContext<[string, IChainPrice[]]>,

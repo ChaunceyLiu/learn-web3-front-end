@@ -42,7 +42,12 @@ export default function BalancePanel() {
 
   useEffect(() => {
     if (publicKey) {
-      connection.getBalance(publicKey).then(setSolBalance);
+      connection
+        .getBalance(publicKey)
+        .then(setSolBalance)
+        .catch((e) => {
+          console.error("获取余额失败", e);
+        });
     }
   }, [publicKey, connection]);
 

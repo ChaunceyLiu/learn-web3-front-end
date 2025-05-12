@@ -11,7 +11,7 @@ export default function BottomDrawer({
 }: Readonly<{ children: React.ReactNode }>) {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer =
-    (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
+    (open: boolean) => () => {
       setOpen(open);
     };
 

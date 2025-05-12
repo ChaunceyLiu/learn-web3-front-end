@@ -52,6 +52,7 @@ export const useWalletStore = create<WalletState>((set, get) => ({
         });
       }
     });
+    return;
   },
 
   // 核心：触发 MetaMask 网络切换

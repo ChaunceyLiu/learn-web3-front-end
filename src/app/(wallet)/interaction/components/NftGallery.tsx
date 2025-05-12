@@ -4,6 +4,7 @@ import { useAccount, useReadContract, useReadContracts } from "wagmi";
 import { useWallet, useConnection } from "@solana/wallet-adapter-react";
 // import { type Metadata, Metaplex } from "@metaplex-foundation/js";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 export const erc721Abi = [
     "function balanceOf(address owner) external view returns (uint256)",
@@ -29,9 +30,9 @@ function MetaplexCard({ metadata }: { metadata: MetaplexMetadata }) {
   return (
     <div className="rounded-lg border bg-white p-4 shadow-sm">
       {metadata?.image && (
-        <img
+        <Image
           src={metadata.image}
-          alt={metadata.name}
+          alt={metadata.name || "NFT Image"}
           className="mb-3 h-48 w-full rounded-md object-cover"
         />
       )}

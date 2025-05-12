@@ -1,4 +1,5 @@
-export default {
+
+const chainCoin = {
     requestParams: [{
         chainIndex: '2',
         tokenAddress: '0x43c5034469bce262d32f64c5e7f9f359f5b1495f',
@@ -31,3 +32,5 @@ export default {
         tokenAddress: '0x514910771af9ca656af840dff83e8264ecf986ca',
     }, ]
 }
+
+export default chainCoin;
