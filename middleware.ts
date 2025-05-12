@@ -29,6 +29,7 @@ export default function middleware(request: NextRequest) {
     `/${pathWithoutApi}${searchParams}`, // 添加查询参数
     PROD
   );
+  console.log(`Rewriting to: ${newUrl}`)
 
   return NextResponse.rewrite(newUrl, { headers: debugHeader });
 }
