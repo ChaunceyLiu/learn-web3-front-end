@@ -1,19 +1,21 @@
 # web3 Demo
 
-app/
-├── README.md                # 根目录 README（主文档）
-├── main
-│   ├── market               # 链上行情页的 README
-├── speical/
-│   ├── README.md            # 代码目录的 README
-└── wallet/
-    └── exchange             # 示例目录的 README
-    ├── interaction
-    └── wallet       
-    
-## 链上行情页
-- [market](https://learn-web3-front-end.vercel.app/market)
+[![codebeat badge](https://codebeat.co/badges/bd0822cb-b22f-49d6-9a81-6577c79ffb41)](https://codebeat.co/projects/github-com-chaunceyliu-learn-web3-front-end-main)
 
+app/
+├── README.md # 根目录 README（主文档）
+├── main
+│ ├── market # 链上行情页的 README
+├── speical/
+│ ├── README.md # 代码目录的 README
+└── wallet/
+└── exchange # 示例目录的 README
+├── interaction
+└── wallet
+
+## 链上行情页
+
+- [market](https://learn-web3-front-end.vercel.app/market)
 
 ## What's next? How do I make an app with this?
 
