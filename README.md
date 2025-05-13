@@ -1,6 +1,7 @@
 # web3 Demo
 
 [![codebeat badge](https://codebeat.co/badges/bd0822cb-b22f-49d6-9a81-6577c79ffb41)](https://codebeat.co/projects/github-com-chaunceyliu-learn-web3-front-end-main)
+[![Maintainability](https://api.codeclimate.com/v1/badges/928f64040167892d172a/maintainability)](https://codeclimate.com/github/ChaunceyLiu/learn-web3-front-end/maintainability)
 
 app/
 ├── README.md # 根目录 README（主文档）

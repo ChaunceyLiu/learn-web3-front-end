@@ -1,0 +1,48 @@
+name: Code Climate Analysis
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  codeclimate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:  # 2025新增权限要求
+      contents: read
+      issues: write
+      pull-requests: write
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 确保获取完整提交历史
+
+      - name: Setup Docker
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io
+          sudo systemctl start docker
+
+      - name: Initialize Code Climate
+        uses: codeclimate/codeclimate-action@v3.2.1
+        with:
+          command: init
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+
+      - name: Run Analysis
+        uses: codeclimate/codeclimate-action@v3.2.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          command: analyze
+          args: --format html --output ./report.html
+
+      - name: Upload Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: codeclimate-report
+          path: ./report.html

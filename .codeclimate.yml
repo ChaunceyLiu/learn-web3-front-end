@@ -1,0 +1,62 @@
+version: "3"
+checks:
+  method-lines:
+    enabled: true
+    max: 12  # TS 推荐更短的方法体
+  cyclomatic-complexity:
+    enabled: true
+    max: 8   # 降低圈复杂度阈值
+  cognitive-complexity:
+    enabled: true
+    max: 10  # 认知复杂度阈值
+  file-lines:
+    enabled: true
+    max: 300 # 单个文件行数限制
+
+plugins:
+  eslint:
+    enabled: true
+    config: 
+      extends:
+        - "eslint:recommended"
+        - "plugin:@typescript-eslint/recommended"
+        - "plugin:@typescript-eslint/recommended-requiring-type-checking"
+      parser: "@typescript-eslint/parser"
+      parserOptions:
+        project: "./tsconfig.json"
+      plugins:
+        - "@typescript-eslint"
+        - "jest"
+      rules:
+        "@typescript-eslint/no-explicit-any": "error"
+        "@typescript-eslint/strict-boolean-expressions": "error"
+
+  typescript-compiler:
+    enabled: true
+    config:
+      strict: true          # 强制 TS 严格模式
+      noImplicitOverride: true
+      exactOptionalPropertyTypes: true
+
+  ai-code-scan:
+    enabled: true
+    rules: [copilot-style, gpt-4-patterns, ts-type-patterns]
+    config:
+      check_test_patterns: false  # 排除测试文件
+
+  code-coverage:
+    enabled: true
+    target: 85%            # 新增覆盖率要求
+
+exclude_patterns:
+  - "**/test/*"
+  - "**/__mocks__/*"
+  - "dist/**"
+  - "**/node_modules/*"
+  - "**/*.spec.ts"
+  - "**/*.d.ts"
+
+ratings:
+  paths:
+  - "**.ts"
+  - "**.tsx"
