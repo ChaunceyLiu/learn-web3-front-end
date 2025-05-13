@@ -21,10 +21,7 @@ jobs:
 
       - name: Setup Docker
         if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y docker.io
-          sudo systemctl start docker
+        run: sudo apt-get install docker.io
 
       - name: Initialize Code Climate
         uses: paambaati/codeclimate-action@v9.0.0
