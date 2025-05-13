@@ -19,7 +19,7 @@ export default function Input(props: InputProps) {
           padding: "8px 16px",
           borderRadius: "20px",
           backgroundColor: color.default,
-          transition: "all 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         },
       }}
       className="MuiInputBase-input MuiOutlinedInput-input"
