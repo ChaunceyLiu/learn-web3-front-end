@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import Header from "@/components/header";
+import Header from "@/components/Header/index";
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 import Providers from "./interaction/Provider";

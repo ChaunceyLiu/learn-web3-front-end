@@ -2,7 +2,7 @@
 'use client';
 import React from "react";
 import { useRouter } from "next/navigation";
-import BaseInput from "../BaseInput";
+import BaseInput from "../BaseInput/index";
 
 export default function EntryInput() {
   const router = useRouter();

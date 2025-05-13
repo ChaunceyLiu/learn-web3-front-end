@@ -1,6 +1,6 @@
-// components/Header.jsx
+// components/Header/index.tsx
 "use client";
-import CustomTabs from "./CustomTabs";
+import CustomTabs from "../CustomTabs";
 import Image from "next/image";
 export default function Header() {
 
