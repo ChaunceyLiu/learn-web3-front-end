@@ -177,9 +177,6 @@ importers:
       jest-environment-jsdom:
         specifier: ^29.7.0
         version: 29.7.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
-      next-router-mock:
-        specifier: ^1.0.1
-        version: 1.0.1(next@15.2.3(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0)
       postcss:
         specifier: ^8.5.3
         version: 8.5.3
@@ -7010,12 +7007,6 @@ packages:
     resolution: {integrity: sha512-XV8g8C6B7UmViXU8askMEYhWwQ4qc/XqJGnexbLV68hzKaGHZDMtHsm2TNxFcbR7+ypVuth/wwpiIlMwpRJJ5A==}
     peerDependencies:
       next: '>=9.0.0'
-
-  next-router-mock@1.0.1:
-    resolution: {integrity: sha512-aiGitJ8ixFpMcVeDEJgpyw8CflZdZFaiabvUilDLyfXmyl7qzegkKbGlRhYgpoE+SF+bgNMxO06YS4RIjT3uyw==}
-    peerDependencies:
-      next: '>=10.0.0'
-      react: '>=17.0.0'
 
   next@13.5.11:
     resolution: {integrity: sha512-WUPJ6WbAX9tdC86kGTu92qkrRdgRqVrY++nwM+shmWQwmyxt4zhZfR59moXSI4N8GDYCBY3lIAqhzjDd4rTC8Q==}
@@ -19447,11 +19438,6 @@ snapshots:
       - supports-color
       - uglify-js
       - webpack
-
-  next-router-mock@1.0.1(next@15.2.3(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(react@19.0.0):
-    dependencies:
-      next: 15.2.3(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      react: 19.0.0
 
   next@13.5.11(@babel/core@7.26.10)(babel-plugin-macros@3.1.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
