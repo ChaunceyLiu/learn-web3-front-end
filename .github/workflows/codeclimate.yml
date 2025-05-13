@@ -40,9 +40,3 @@ jobs:
         with:
           command: analyze
           args: --format html --output ./report.html
-
-      - name: Upload Report
-        uses: actions/upload-artifact@v3
-        with:
-          name: codeclimate-report
-          path: ./report.html
